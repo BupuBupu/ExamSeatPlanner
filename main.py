@@ -11,14 +11,6 @@ inp3 = sys.argv[3] #reg
 inp4 = sys.argv[4] #output path
 pth = slotlist_generator(inp1,inp3)
 def filemaker(crsdat,scd,outpath):
-    def crs_stud(crs,slt):
-        #Returns the total student from the course
-        df = pd.read_excel(crsdat)
-        num=0
-        for ind in df.index:
-            if (df["Course Code"][ind])==crs:
-                num=int(df["Register"][ind])
-        return num
     def lh_reader_indi():
         folder_path = os.getcwd()+'\seating' #Add the target folder of LHC rooms
         list_of_files = os.listdir(folder_path)
@@ -37,31 +29,6 @@ def filemaker(crsdat,scd,outpath):
         lhc_rooms.sort(key= lambda x:x[2])
         lhc_rooms.reverse()
         return lhc_rooms #[[LH Name,file-Path,Total seats]]
-    def closest_students_to_n(courses, target_students):
-        n = len(courses)
-        courses.sort(key=lambda x: x[1])  # Sort courses based on capacity
-
-        dp = [[0] * (target_students + 1) for _ in range(n + 1)]
-
-        for i in range(1, n + 1):
-            course_name, course_capacity,course_slot = courses[i - 1]
-            for j in range(1,target_students + 1):
-                
-                dp[i][j] = (dp[i - 1][j]) 
-                if j >= course_capacity:
-                    dp[i][j]= max(dp[i][j],dp[i-1][j-course_capacity]+course_capacity)
-
-        selected_courses = []
-        i = n
-        j = target_students
-        while i > 0 and j > 0:
-            if dp[i][j] != dp[i - 1][j]:
-                selected_courses.append(courses[i - 1])
-                j -= courses[i - 1][1]
-            i -= 1
-
-        selected_courses.reverse()
-        return selected_courses
     def Slot_reader(Slot1):
         df = pd.read_excel(crsdat)
         cols = list(df.columns)
@@ -151,16 +118,10 @@ def filemaker(crsdat,scd,outpath):
                 shift_course[f"SHIFT--{i2+1}"]= lst
             else:
                 courses  = slot_courses[shift_slt]
-                rough_students = int(slot_students_num[shift_slt])
-                if slot_count[shift_slt]>1:
-                    rough_students = int(slot_students_num[shift_slt]//slot_count[shift_slt])
-                req_courses = closest_students_to_n(list(courses),rough_students+20)
-                for i1 in req_courses:
-                    courses.remove(i1)
                 slot_courses[shift_slt]=courses
-                for i3 in req_courses:
+                for i3 in courses:
                     lst.append([i3[0],i3[2]])
-                shift_course[f"SHIFT--{i2+1}"]= lst
+                shift_course[f"SHIFT--{i2+1}"]= list(lst)
         return shift_course
     #---------------------------------------------------------------------------------------------- Shift Dct Generator
     def shift_dct_generator(Slt, crslist,shift):
@@ -232,7 +193,6 @@ def filemaker(crsdat,scd,outpath):
             #Above variable contains list of all LHC room numbers
             seats_linear = [0]*total_seats
             even = 0
-            odd = 1
             #print(len(lhc_rooms),total_seats,tot_stud)
             for course_name in courses_in_shift:
                 student_numbers = course_students[course_name] #Has enrollment ID of the Students
