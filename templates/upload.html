@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Seat Planner</title>
+    <link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/x-icon">
+    <!-- Include Bootstrap CSS from a CDN -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        /* Custom CSS for improved styling */
+        body {
+            background-color: #aed8e4;
+        }
+        .container {
+            max-width: 600px;
+            margin-top: 40px;
+        }
+        .btn-primary, .btn-secondary {
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-success {
+            margin-top: 20px;
+        }
+        .btn-file input[type="file"] {
+            display: none;
+        }
+        .btn-file {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-file input[type="file"] {
+            position: absolute;
+            font-size: 100px;
+            right: 0;
+            top: 0;
+            opacity: 0;
+        }
+        .btn-file span {
+            font-weight: 700;
+            display: inline-block;
+        }
+        .form-group {
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="text-center mt-4 mb-4">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" height="80"> <!-- Replace 'your-logo.png' with the path to your logo image -->
+            <h1>Seat Planner(Only for IIT Delhi)</h1>
+            <h3 style="text-align: center;">All file Formats are excel</h3>
+        </div>
+        <div class="card-deck mb-2">
+            <div class="card p-1">
+                <img src="{{ url_for('static', filename='crsdat.png') }}" class="card-img-top" alt="Course Data Format" height="119">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Course Data Format</h5>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='scd.png') }}" class="card-img-top" alt="Schedule Format" height="119">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Schedule Format</h5>
+                </div>
+            </div>
+            <div class="card">
+                <img src="{{ url_for('static', filename='Registration.png') }}" class="card-img-top" alt="Registration Format" height="119">
+                <div class="card-body text-center">
+                    <h5 class="card-title">Registration Format</h5>
+                </div>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-body">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+                        <label for="file1">Upload the Course Data File </label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="file1" name="file1" accept=".xlsx">
+                                <label class="custom-file-label" for="file1">Select file...</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="file2">Upload the exam schedule</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="file2" name="file2" accept=".xlsx">
+                                <label class="custom-file-label" for="file2">Select file...</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="file3">Upload the student registration file</label>
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" class="custom-file-input" id="file3" name="file3" accept=".xlsx">
+                                <label class="custom-file-label" for="file3">Select file...</label>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Generate</button>
+                </form>
+                {% if download_link %}
+                <div class="text-center mt-4">
+                    <a href="{{ url_for('download') }}" class="btn btn-success">Download CSV</a>
+                </div>
+                {% endif %}
+                <div class="text-center mt-4">
+                    <form method="GET" action="/">
+                        <button type="submit" class="btn btn-secondary">Generate New</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="footer p-2" style="text-align: center;">
+            <p>This application is curated only for IIT Delhi, it only has IIT Delhi class room infos in backend.</p>
+            <p>&copy; 2023 Rajarshee Das</p>
+            <p >
+                <a style="color: black;text-decoration: none;" href="mailto:rajarshee.cse.iitd@gmail.com">Email: rajarshee.cse.iitd@gmail.com</a>
+                &nbsp;&bull;&nbsp;
+                <a style="color: black;text-decoration: none;" href="https://drive.google.com/file/d/1zJSFUb5MzwNmnl6viVVaVow1kaupszYd/view" target="_blank" rel="noopener noreferrer">How To Use</a>
+                &nbsp;&bull;&nbsp;
+                <a style="color: black;text-decoration: none;" href="https://www.linkedin.com/in/imrjd14/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Update custom file input labels with the selected file name
+        document.querySelectorAll('.custom-file-input').forEach(function (input) {
+            input.addEventListener('change', function (e) {
+                var fileName = e.target.files[0].name;
+                var label = e.target.nextElementSibling;
+                label.innerHTML = fileName;
+            });
+        });
+    </script>
+</body>
+</html>
