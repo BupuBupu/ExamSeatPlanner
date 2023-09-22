@@ -28,7 +28,7 @@ def index():
 
 @app.route('/download')
 def download():
-    return send_file('static\output.csv', as_attachment=True)
+    return send_file('static/output.csv', as_attachment=True)
 #Comment the below two lines before pushing to git
 # if __name__ == '__main__':
 #     app.run(debug=True)
