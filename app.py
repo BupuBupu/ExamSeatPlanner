@@ -19,7 +19,7 @@ def index():
             # Run a Python script to generate the CSV file
             script_path = os.path.join(os.getcwd(), "main.py")  # Replace with the relative path
             print(script_path)
-            cmd = f'python {script_path} {os.path.join(app.config["UPLOAD_FOLDER"], "file1.xlsx")} {os.path.join(app.config["UPLOAD_FOLDER"], "file2.xlsx")} {os.path.join(app.config["UPLOAD_FOLDER"], "file3.xlsx")} {os.path.join(app.config["OUTPUT_FOLDER"], "output.csv")}'
+            cmd = f'python {script_path} {os.path.join(os.getcwd(),os.path.join(app.config["UPLOAD_FOLDER"], "file1.xlsx"))} {os.path.join(os.getcwd(),os.path.join(app.config["UPLOAD_FOLDER"], "file2.xlsx"))} {os.path.join(os.getcwd(),os.path.join(app.config["UPLOAD_FOLDER"], "file3.xlsx"))} {os.path.join(os.getcwd(),os.path.join(app.config["OUTPUT_FOLDER"], "output.csv"))}'
             print(cmd)
             subprocess.run(cmd, shell=True)
             # Provide a link to download the generated CSV
@@ -28,7 +28,7 @@ def index():
 
 @app.route('/download')
 def download():
-    return send_file('static/output.csv', as_attachment=True)
+    return send_file(os.path.join(os.getcwd(),'static/output.csv'), as_attachment=True)
 #Comment the below two lines before pushing to git
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
