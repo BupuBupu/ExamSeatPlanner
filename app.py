@@ -30,5 +30,5 @@ def index():
 def download():
     return send_file(os.path.join(os.getcwd(),'static/output.csv'), as_attachment=True)
 #Comment the below two lines before pushing to git
-# if __name__ == '__main__':
-#     app.run(debug=True)
+if __name__ == '__main__':
+    app.run(debug=True)
