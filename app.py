@@ -13,9 +13,9 @@ def index():
         file3 = request.files['file3']  # Add a third file input
 
         if file1 and file2 and file3:  # Check all three files are provided
-            file1.save(os.path.join(app.config['UPLOAD_FOLDER'], 'file1.xlsx'))
-            file2.save(os.path.join(app.config['UPLOAD_FOLDER'], 'file2.xlsx'))
-            file3.save(os.path.join(app.config['UPLOAD_FOLDER'], 'file3.xlsx'))
+            file1.save(os.path.join(os.getcwd(),os.path.join(app.config["UPLOAD_FOLDER"], "file1.xlsx")))
+            file2.save(os.path.join(os.getcwd(),os.path.join(app.config["UPLOAD_FOLDER"], "file2.xlsx")))
+            file3.save(os.path.join(os.getcwd(),os.path.join(app.config["OUTPUT_FOLDER"], "output.csv")))
             # Run a Python script to generate the CSV file
             script_path = os.path.join(os.getcwd(), "main.py")  # Replace with the relative path
             print(script_path)
