@@ -15,7 +15,7 @@ def index():
         if file1 and file2 and file3:  # Check all three files are provided
             file1.save(os.path.join(os.getcwd(),os.path.join(app.config["UPLOAD_FOLDER"], "file1.xlsx")))
             file2.save(os.path.join(os.getcwd(),os.path.join(app.config["UPLOAD_FOLDER"], "file2.xlsx")))
-            file3.save(os.path.join(os.getcwd(),os.path.join(app.config["OUTPUT_FOLDER"], "output.csv")))
+            file3.save(os.path.join(os.getcwd(),os.path.join(app.config["UPLOAD_FOLDER"], "file3.xlsx")))
             # Run a Python script to generate the CSV file
             script_path = os.path.join(os.getcwd(), "main.py")  # Replace with the relative path
             print(script_path)
@@ -28,7 +28,7 @@ def index():
 
 @app.route('/download')
 def download():
-    return send_file(os.path.join(os.getcwd(),'static/output.csv'), as_attachment=True)
+    return send_file(os.path.join(os.getcwd(),'static\output.csv'), as_attachment=True)
 #Comment the below two lines before pushing to git
 if __name__ == '__main__':
     app.run(debug=True,host="0.0.0.0",port=5000)
