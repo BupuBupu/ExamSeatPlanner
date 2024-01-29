@@ -1,0 +1,4 @@
+Slotname(code)||||Actual_Slot
+indi1         ---- CVL100 (only) 
+indi2         ---- APL100/HSL800
+indi          ---- MTL100 (only)
